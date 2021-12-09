@@ -24,19 +24,46 @@ class NN:
         self.b2 = 0.2 * np.random.rand(LAST_LAYER_SIZE, 1) - 0.1
 
     def initData(self):
-        train_x = np.loadtxt(sys.argv[1])
-        train_y = np.loadtxt(sys.argv[2])
-        test_x = np.loadtxt(sys.argv[3])
+        # You can remove the shuffle here because train() shuffle the data again
+        self.train_x = np.loadtxt(sys.argv[1])
+        self.train_y = np.loadtxt(sys.argv[2])
+        self.test_x = np.loadtxt(sys.argv[3])
+        # shufller = np.random.permutation(len(train_x))
+        # shuffled_train_x = train_x[shufller]
+        # shuffled_train_y = train_y[shufller]
+        # self.train_x = shuffled_train_x
+        # self.train_y = shuffled_train_y
 
-        shufller = np.random.permutation(len(train_x))
-        shuffled_train_x = train_x[shufller]
-        shuffled_train_y = train_y[shufller]
-        self.train_x = shuffled_train_x
-        self.train_y = shuffled_train_y
 
+    def relu(self):
+        pass
+
+    def softmax(self):
+        pass
+
+    def predict_y_hat(self, image):
+        image = shape(IMAGE_SIZE, 1)
+        z1 = np.dot(w1, image) + b1
+        h1 = self.relu(z1)
+        z2 = np.dot(w2, h1) + b2
+        h2 = self.softmax(z2)
+        return np.argmax(h2)
+
+
+
+    # BAck propagation, Forward propagation
     def train(self):
         for e in range(EPOCHS):
-            pass
+            shufller = np.random.permutation(len(self.train_x))
+            train_x = self.train_x[shufller]
+            train_y = self.train_y[shufller]
+            loss = []
+            for image, digit in zip(train_x, train_y):
+                image = np.divide(image, MAX_COLOR)
+                # TODO stopped here
+
+
+
 
 
 
