@@ -1,7 +1,7 @@
 import numpy as np
 import scipy
 import sys
-from datetime import datetime
+#from datetime import datetime
 
 IMAGE_SIZE = 784
 FIRST_LAYER_SIZE = 150
@@ -23,7 +23,7 @@ def relu_derivative(x):
 
 def status(msg):
     now = datetime.now()
-    print(msg, "\t\t",  now.strftime("%H:%M:%S.%f"))
+    #print(msg, "\t\t",  now.strftime("%H:%M:%S.%f"))
 
 def softmax(x):
     exps = np.exp(x)
@@ -52,11 +52,6 @@ class NN:
         self.train_y = np.loadtxt(sys.argv[2])
         self.test_x = np.loadtxt(sys.argv[3])
         status("Data loaded!")
-        # shufller = np.random.permutation(len(train_x))
-        # shuffled_train_x = train_x[shufller]
-        # shuffled_train_y = train_y[shufller]
-        # self.train_x = shuffled_train_x
-        # self.train_y = shuffled_train_y
 
     # Back propagation, Forward propagation
     def train(self):
