@@ -1,20 +1,15 @@
 import numpy as np
 import sys
 
-LR = 0.005
-EPOCHS = 55
-#EPOCHS = 1
-
-def relu(x):
-    return np.maximum(np.zeros(np.shape(x)), x)
+LR = 0.0045
 
 def relu_derivative(z):
     return np.greater(z, 0).astype(int)
 
 def status(msg):
-    #pass
     #now = datetime.now()
     print(msg)
+    pass
 
 def softmax(x):
     x = x - np.max(x)
@@ -29,33 +24,31 @@ class NN:
     def initParams(self):
         self.sigmoid = lambda x: 1 / (1 + np.exp(-x))
         self.w1 = np.random.rand(150, 784)
-        self.b1 = np.random.rand(150, 1)
         self.w2 = np.random.rand(10, 150)
+        self.b1 = np.random.rand(150, 1)
         self.b2 = np.random.rand(10, 1)
         # normalize
         self.w1 = 0.2 * self.w1 - 0.1
-        self.b1 = 0.2 * self.b1 - 0.1
         self.w2 = 0.2 * self.w2 - 0.1
+        self.b1 = 0.2 * self.b1 - 0.1
         self.b2 = 0.2 * self.b2 - 0.1
 
     def initData(self):
-        # You can remove the shuffle here because train() shuffle the data again
         self.train_x = np.loadtxt(sys.argv[1])
-        #status("Train_x loaded")
+        status("Train_x loaded")
         self.train_y = np.loadtxt(sys.argv[2])
         self.test_x = np.loadtxt(sys.argv[3])
-        #status("Data loaded!")
+        status("Data loaded!")
 
     def train(self):
-        #status("Training began")
-        for e in range(EPOCHS):
-            #status("Epoch No. " + str(e))
+        status("Training began")
+        for e in range(55):
+            status("Epoch No. " + str(e))
             shufller = np.random.permutation(len(self.train_x))
             train_x = self.train_x[shufller]
             train_y = self.train_y[shufller]
             loss = []
             for image, digit in zip(train_x, train_y):
-                d = int(digit)
                 image = np.divide(image, 255)
                 # forward prop
                 image = image.reshape(784, 1)
@@ -63,9 +56,10 @@ class NN:
                 h1 = self.sigmoid(z1)
                 z2 = np.dot(self.w2, h1) + self.b2
                 h2 = softmax(z2)
-                predictionsVector = np.zeros(10)
-                predictionsVector[d] = 1
                 # back prop
+                predictionsVector = np.zeros(10)
+                d = int(digit)
+                predictionsVector[d] = 1
                 predictionsVector = np.asarray(predictionsVector).reshape(10, 1)
                 dz2 = np.subtract(h2, predictionsVector)
                 db2 = dz2
@@ -90,7 +84,7 @@ class NN:
 
 
     def test(self):
-        #status("Test started")
+        status("Test started")
         predictions = []
         for image in self.test_x:
             image = np.divide(image, 255)
@@ -99,9 +93,9 @@ class NN:
 
 
 if __name__ == '__main__':
-    #status("Started")
+    status("Started")
     nn = NN()
     nn.train()
     predictions = nn.test()
     np.savetxt("test_y", predictions, fmt='%d', delimiter='\n')
-    #status("Finish")
+    status("Finish")
