@@ -1,7 +1,7 @@
 import numpy as np
 import sys
 
-LR = 0.005
+LR = 0.015
 
 def relu_derivative(z):
     return np.greater(z, 0).astype(int)
@@ -42,7 +42,7 @@ class NN:
 
     def train(self):
         status("Training began")
-        for e in range(45):
+        for e in range(20):
             status("Epoch No. " + str(e))
             shufller = np.random.permutation(len(self.train_x))
             train_x = self.train_x[shufller]
